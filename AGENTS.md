@@ -230,36 +230,13 @@ The new pipeline must be independent of the legacy notebooks. It should provide:
 - Per-prompt activation/probe prediction tables.
 - Human annotation rubric and labels.
 - Run manifests containing Git SHA, hardware, dtype, and command.
-- A small CPU or reduced-subset smoke test.
 - One command that regenerates the reported metrics and final figures.
 
 Large activations may remain outside Git, but their checksums, run manifests, split IDs, predictions, metrics, annotations, and final figures must be tracked or released through a documented artifact location.
 
 Before implementation, review the root [.gitignore](.gitignore) because broad recursive patterns can silently hide important results and activation files.
 
-## 9. Execution checkpoints
-
-Complete the work in the following dependency order. Do not expand the model roster or begin causal intervention until the earlier validation checkpoints pass.
-
-| Checkpoint | Deliverable and verification |
-|---|---|
-| Research contract | Freeze this plan, define the hypotheses and fallback findings, create the environment/configuration skeleton, and document the boundary between `legacy/` and the follow-up. Verify a clean import and pinned dependency resolution. |
-| Dataset and annotation setup | Ingest XSTest and JailbreakBench, validate counts, check duplicates, preserve grouping fields, and write the annotation rubric. Verify deterministic processed data and checksums. |
-| Inference smoke test | Run a tiny end-to-end test for one model and four prompts. Verify chat-template rendering, activation shapes, response IDs, finish reasons, and repeatability. |
-| Core activation collection | Extract XSTest and clean JailbreakBench activations for Qwen2.5-0.5B and Qwen2.5-1.5B. Verify every expected ID, layer metadata, and run manifest. |
-| Probe training | Run grouped nested probe training and out-of-fold predictions for both Qwen models. Verify that no semantic group crosses a fold and that shuffled labels perform near chance. |
-| External evaluation | Run frozen evaluation on all 200 clean JailbreakBench behaviors. Compare activation probes with TF-IDF, length, embedding, and shuffled-label baselines. Apply the external-probe gate. |
-| Attack development | Compare at most two documented attack options on the development behaviors. Freeze one attack or explicitly drop the jailbreak-dissociation claim. |
-| Confirmatory behavior evaluation | Generate direct and attacked responses for the confirmatory harmful behaviors and direct benign controls. Save finish reasons, manifests, and per-prompt IDs. |
-| Human annotation | Blind-annotate responses, repeat the annotation subset, calculate agreement, and resolve ambiguous labels. No response-rate result is reported before this checkpoint. |
-| Cross-family replication | Add SmolLM2-1.7B only if the Qwen pipeline, labels, and external evaluation are complete. Add SmolLM2-360M only if the previous results reproduce cleanly. |
-| Robustness and statistics | Run paired bootstrap statistics, strict-label sensitivity, model-depth plots, baseline comparisons, and error analysis. Attempt a causal pilot only if the core study is already stable. |
-| Results freeze | Produce the small set of final visuals: pipeline diagram, external-generalization plot, and direct-versus-jailbreak paired result. Freeze the claims selected by the decision gates. |
-| Reproduction and artifact handoff | Re-run the main results from a clean environment, verify every table and figure, record limitations, and package the artifacts. |
-
-Maintain result notes and figure captions throughout implementation.
-
-## 10. Final experimental deliverables
+## 9. Final experimental deliverables
 
 At completion of the follow-up, the project should contain:
 
@@ -267,15 +244,13 @@ At completion of the follow-up, the project should contain:
 - Pinned environment and model/dataset manifests.
 - Group assignments and out-of-fold probe predictions.
 - Human annotation rubric, labels, and agreement results.
-- External JailbreakBench results.
-- Direct-versus-jailbreak paired results.
 - Baseline and sensitivity analyses.
 - A small set of final figures and tables with uncertainty.
 - A concise future experimental work specification for causal interventions, larger models, and attack-family transfer.
 
 The success criterion is not reproducing the original headline. It is producing a stronger, more honest answer to the same research question, with evidence that can be independently inspected and a well-defined next experimental phase.
 
-## 11. Scientific and experiment resources
+## 10. Scientific and experiment resources
 
 | Resource | Purpose |
 |---|---|
@@ -284,8 +259,6 @@ The success criterion is not reproducing the original headline. It is producing 
 | [JailbreakBench NeurIPS paper](https://proceedings.neurips.cc/paper_files/paper/2024/file/63092d79154adebd7305dfd498cbff70-Paper-Datasets_and_Benchmarks_Track.pdf) | Benchmark design and dataset documentation |
 | [Qwen2.5-0.5B-Instruct](https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct) | Official model card and revision source |
 | [Qwen2.5-1.5B-Instruct](https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct) | Official model card and revision source |
-| [SmolLM2-360M-Instruct](https://huggingface.co/HuggingFaceTB/SmolLM2-360M-Instruct) | Optional tiny cross-family model |
-| [SmolLM2-1.7B-Instruct](https://huggingface.co/HuggingFaceTB/SmolLM2-1.7B-Instruct) | Cross-family replication model |
 | [Hewitt and Liang (2019)](https://aclanthology.org/D19-1275/) | Probe selectivity and control-task motivation |
 | [Zhou et al. (2024)](https://aclanthology.org/2024.findings-emnlp.139/) | Hidden-state analysis of alignment and jailbreak behavior |
 | [Lin et al. (2024)](https://aclanthology.org/2024.emnlp-main.401/) | Representation-space analysis of jailbreak attacks |
