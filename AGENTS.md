@@ -61,13 +61,6 @@ Do not use random row splits as the only evaluation. Group related examples by `
 
 Use JailbreakBench as the external dataset. It provides 100 misuse behaviors and 100 thematically matched benign behaviors, together with standardized jailbreak artifacts and evaluation guidance. Use the [official repository](https://github.com/JailbreakBench/jailbreakbench) and the [NeurIPS benchmark paper](https://proceedings.neurips.cc/paper_files/paper/2024/file/63092d79154adebd7305dfd498cbff70-Paper_Datasets_and_Benchmarks_Track.pdf).
 
-JailbreakBench replaces both the former synthetic-safe split and the need to invent a new safe-prompt distribution. Check for exact or near-duplicate overlap with XSTest before finalizing the external evaluation.
-
-Split the harmful behaviors into:
-
-- **Development set:** 20 behaviors for comparing at most two documented attack options.
-- **Confirmatory set:** 80 behaviors used only after the attack condition is frozen.
-
 Prefer one transferable prompt-side jailbreak artifact as the primary attack. A response-prefill condition may be a secondary control, but it should not be the only attack because a prefill leaves the user prompt unchanged by design. If no attack produces enough genuine behavior flips in development, do not manufacture a result; report the external probe study and move the jailbreak mechanism to Future Work.
 
 #### Excluded dataset
@@ -76,16 +69,12 @@ Modified AdvBench is not part of the follow-up analysis, figures, metrics, or co
 
 ### 3.2 Model roster
 
-The model roster is intentionally small and staged. Four models is the maximum; six to eight unrelated checkpoints are out of scope for this experiment.
+The model roster is intentionally small and staged.
 
 | Priority | Model | Role |
 |---|---|---|
 | Mandatory | [Qwen/Qwen2.5-0.5B-Instruct](https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct) | Tiny Qwen checkpoint; approximately 0.49B parameters |
 | Mandatory | [Qwen/Qwen2.5-1.5B-Instruct](https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct) | Within-family size contrast; approximately 1.54B parameters |
-| Replication | [HuggingFaceTB/SmolLM2-1.7B-Instruct](https://huggingface.co/HuggingFaceTB/SmolLM2-1.7B-Instruct) | Cross-family checkpoint at a comparable small scale |
-| Optional | [HuggingFaceTB/SmolLM2-360M-Instruct](https://huggingface.co/HuggingFaceTB/SmolLM2-360M-Instruct) | Completes a tiny/small Ã— Qwen/SmolLM comparison if earlier stages pass |
-
-The first complete result must use the two Qwen models. SmolLM2-1.7B is added only after the Qwen pipeline, annotation, and external evaluation reproduce cleanly. SmolLM2-360M is added only if the first three models are complete.
 
 The analysis may describe patterns across these checkpoints, but it must not claim that model family, architecture, alignment tuning, or parameter count caused the observed differences. The checkpoints differ in more than one property.
 
@@ -104,7 +93,7 @@ Each response is annotated for content-level harmfulness. Refusal wording alone 
 
 ## 4. Hypotheses and primary outcomes
 
-### H1 â€” External harmfulness decodability
+### H1 External harmfulness decodability
 
 A probe trained only on grouped XSTest data will discriminate JailbreakBench benign from misuse prompts without retraining.
 
@@ -114,7 +103,7 @@ Supporting outcomes: AUPRC, macro-F1, calibration, confidence intervals, and com
 
 The result is only interpreted as a generalizable decodable signal if it beats the controls. If a TF-IDF or punctuation baseline matches the activation probe, the correct conclusion is benchmark or surface predictability, not a special internal representation.
 
-### H2 â€” Jailbreak-induced behavioral change
+### H2 Jailbreak-induced behavioral change
 
 For each harmful behavior, define a behavioral flip as:
 
@@ -130,7 +119,7 @@ harmful-completion rate under jailbreak
 
 Use paired bootstrap intervals clustered by behavior rather than treating responses as independent.
 
-### H3 â€” Representation-preserved harmful completion
+### H3 Representation-preserved harmful completion
 
 Among genuine direct-refusal-to-harmful-completion flips, measure the fraction for which the frozen probe remains positive and the paired change in continuous probe margin.
 
@@ -141,7 +130,7 @@ preserved-signal rate
 
 This is the corrected, interpretable version of the original â€œalignment brittlenessâ€ idea. It is evidence consistent with a representationâ€“behavior disconnect, not proof of an alignment mechanism.
 
-### H4 â€” Causal relevance (Future Work, or a gated pilot)
+### H4 Causal relevance (Future Work, or a gated pilot)
 
 If H1â€“H3 are reliable, learn a direction from training-fold probe weights or class means and test activation addition/subtraction at a fixed layer. Use norm-matched random directions, a shuffled-label direction, held-out prompts, multiple intervention strengths, harmful-completion rates, and benign over-refusal rates.
 
@@ -201,8 +190,6 @@ Report:
 - Continuous probe margins alongside any thresholded result.
 - Strict and broad annotation sensitivities.
 - Exact model, dataset, tokenizer, seed, split, and generation configuration.
-
-Do not use an uncalibrated softmax value as â€œprobe confidence.â€ Do not make the composite brittleness score a headline metric.
 
 ## 7. Decision gates and fallback findings
 

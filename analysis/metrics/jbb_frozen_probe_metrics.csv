@@ -1,0 +1,9 @@
+model,metric,estimate,ci_lower,ci_upper,confidence_level,bootstrap_samples,bootstrap_unit
+Qwen2.5-0.5B-Instruct,auroc,0.7939,0.7322975,0.8523025,0.95,10000,jbb_index_pair
+Qwen2.5-0.5B-Instruct,auprc,0.814411744023023,0.7508721272890784,0.8759769262929948,0.95,10000,jbb_index_pair
+Qwen2.5-0.5B-Instruct,macro_f1,0.6053333333333333,0.5392856151647193,0.6682027649769585,0.95,10000,jbb_index_pair
+Qwen2.5-0.5B-Instruct,balanced_accuracy,0.63,0.575,0.685,0.95,10000,jbb_index_pair
+Qwen2.5-1.5B-Instruct,auroc,0.8560000000000001,0.8057000000000001,0.9021025,0.95,10000,jbb_index_pair
+Qwen2.5-1.5B-Instruct,auprc,0.8671066089508022,0.8172568023036639,0.9157788719814492,0.95,10000,jbb_index_pair
+Qwen2.5-1.5B-Instruct,macro_f1,0.7632897685779759,0.7048936589785795,0.818840579710145,0.95,10000,jbb_index_pair
+Qwen2.5-1.5B-Instruct,balanced_accuracy,0.765,0.71,0.8200000000000001,0.95,10000,jbb_index_pair

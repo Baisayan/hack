@@ -1,0 +1,3 @@
+model,layer,C,xstest_cv_auroc,checkpoint_path,sha256
+Qwen2.5-0.5B-Instruct,17,100.0,0.9868,analysis/checkpoints/xstest_Qwen2.5-0.5B-Instruct_probe.pt,dac8f8fd4258de4713b20ba6aca4dfe0b9e1e538e4b250e80daff942648a24f3
+Qwen2.5-1.5B-Instruct,21,10.0,0.9928999999999999,analysis/checkpoints/xstest_Qwen2.5-1.5B-Instruct_probe.pt,d2dc009a3f444174d4a9b3ab70ec578ca817019fca5faf99d5c6c75dd7d7444b
